@@ -25,7 +25,8 @@ on:
 
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT }}
-  SERVICE: otot-b-backend
+  # SERVICE: otot-b-backend
+  SERVICE: app
   REGION: asia-southeast1
 
 defaults:
@@ -57,7 +58,7 @@ jobs:
 
       - run: npm ci
       - run: npm run build --if-present
-      # - run: npm test
+      - run: npm test --if-present
   deploy:
     needs: build
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
@@ -86,9 +87,14 @@ jobs:
         run: gcloud auth configure-docker
 
       - name: Build and Push Container
+        # run: |-
+        #   docker build -t gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }} .
+        #   docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }}
         run: |-
-          docker build -t gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }} .
+          docker build -t app .
+          git tag app gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }}
           docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }}
+
       - name: Deploy to Cloud Run
         run: |-
           gcloud run deploy ${{ env.SERVICE }} \
