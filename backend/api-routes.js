@@ -17,7 +17,7 @@ router
   .post(contactController.new)
   .delete(contactController.delete)
   .put(contactController.update);
-router.route("/contacts/:contact_id").get(contactController.view);
+// router.route("/contacts/:contact_id").get(contactController.view);
 // .patch(contactController.update);
 
 // Export API routes
