@@ -21,7 +21,11 @@ app.use(bodyParser.json());
 app.use(cors()); // config cors so that front-end can use
 app.options("*", cors());
 
-mongoose.connect("mongodb://127.0.0.1/backend", { useNewUrlParser: true });
+let mongoDb =
+  "mongodb+srv://cs3219-otot:8A6DEOHcSbGXKsFK@cluster0.i4fbx0o.mongodb.net/?retryWrites=true&w=majority";
+// let mongoDb =   "mongodb://127.0.0.1/backend";
+
+mongoose.connect(mongoDb, { useNewUrlParser: true });
 var db = mongoose.connection;
 
 // Added check for DB connection
@@ -29,7 +33,7 @@ if (!db) console.log("Error connecting db");
 else console.log("Db connected successfully");
 
 // Setup server port
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 8004;
 
 // Send message for default URL
 app.get("/", (req, res) => res.send("Hello World with Express"));

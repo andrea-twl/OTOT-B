@@ -9,6 +9,9 @@ function App() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
 
+  // const API_PATH  = "http://localhost:8080";
+  const API_PATH = "https://app-ddxluknoaq-as.a.run.app";
+
   useEffect(() => {
     handleGet();
   }, []);
@@ -34,7 +37,7 @@ function App() {
 
   const handleGet = async () => {
     await axios
-      .get("http://localhost:8080" + "/api/contacts")
+      .get(API_PATH + "/api/contacts")
       .then((res) => {
         setContactList(res.data.data);
       })
@@ -45,7 +48,7 @@ function App() {
 
   const handleAdd = async () => {
     await axios
-      .post("http://localhost:8080" + "/api/contacts", {
+      .post(API_PATH + "/api/contacts", {
         name: name,
         phone: phone,
       })
@@ -64,7 +67,7 @@ function App() {
   const handleUpdate = async () => {
     await axios
       .put(
-        "http://localhost:8080" + "/api/contacts",
+        API_PATH + "/api/contacts",
         {
           name: name,
           phone: phone,
@@ -85,7 +88,7 @@ function App() {
 
   const handleDelete = async (id) => {
     await axios
-      .delete("http://localhost:8080" + "/api/contacts", {
+      .delete(API_PATH + "/api/contacts", {
         data: {
           contact_id: id,
         },
