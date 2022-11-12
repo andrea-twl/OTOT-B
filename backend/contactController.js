@@ -21,8 +21,6 @@ exports.index = function (req, res) {
 exports.new = function (req, res) {
   var contact = new Contact();
   contact.name = req.body.name ? req.body.name : contact.name;
-  // contact.gender = req.body.gender;
-  // contact.email = req.body.email;
   contact.phone = req.body.phone;
   // save the contact and check for errors
   contact.save(function (err) {
@@ -46,11 +44,9 @@ exports.view = function (req, res) {
 };
 // Handle update contact info
 exports.update = function (req, res) {
-  Contact.findById(req.params.contact_id, function (err, contact) {
+  Contact.findById(req.query.contact_id, function (err, contact) {
     if (err) res.send(err);
     contact.name = req.body.name ? req.body.name : contact.name;
-    // contact.gender = req.body.gender;
-    // contact.email = req.body.email;
     contact.phone = req.body.phone;
     // save the contact and check for errors
     contact.save(function (err) {
@@ -62,11 +58,12 @@ exports.update = function (req, res) {
     });
   });
 };
+
 // Handle delete contact
 exports.delete = function (req, res) {
-  Contact.remove(
+  Contact.deleteOne(
     {
-      _id: req.params.contact_id,
+      _id: req.body.contact_id,
     },
     function (err, contact) {
       if (err) res.send(err);
@@ -74,6 +71,7 @@ exports.delete = function (req, res) {
         status: "success",
         message: "Contact deleted",
       });
+      console.log("contact", contact);
     }
   );
 };

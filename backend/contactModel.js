@@ -6,11 +6,6 @@ var contactSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  // email: {
-  //   type: String,
-  //   required: true,
-  // },
-  // gender: String,
   phone: String,
   create_date: {
     type: Date,

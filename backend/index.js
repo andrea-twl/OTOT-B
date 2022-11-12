@@ -6,6 +6,7 @@ let bodyParser = require("body-parser");
 let mongoose = require("mongoose");
 // Initialise the app
 let app = express();
+var cors = require("cors");
 
 // Import routes
 let apiRoutes = require("./api-routes");
@@ -17,6 +18,9 @@ app.use(
 );
 app.use(bodyParser.json());
 // Connect to Mongoose and set connection variable
+app.use(cors()); // config cors so that front-end can use
+app.options("*", cors());
+
 mongoose.connect("mongodb://127.0.0.1/backend", { useNewUrlParser: true });
 var db = mongoose.connection;
 
