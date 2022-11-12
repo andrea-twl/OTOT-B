@@ -9,7 +9,7 @@ function App() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
 
-  // const API_PATH  = "http://localhost:8080";
+  // const API_PATH = "http://localhost:8004";
   const API_PATH = "https://app-ddxluknoaq-as.a.run.app";
 
   useEffect(() => {
@@ -47,43 +47,51 @@ function App() {
   };
 
   const handleAdd = async () => {
-    await axios
-      .post(API_PATH + "/api/contacts", {
-        name: name,
-        phone: phone,
-      })
-      .then((res) => {
-        console.log(res);
+    if (name != "" && phone != "") {
+      await axios
+        .post(API_PATH + "/api/contacts", {
+          name: name,
+          phone: phone,
+        })
+        .then((res) => {
+          console.log("Success", res);
 
-        setName("");
-        setPhone("");
-        handleGet();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+          setName("");
+          setPhone("");
+          handleGet();
+        })
+        .catch((err) => {
+          console.log("Error", err);
+        });
+    } else {
+      alert("Missing field");
+    }
   };
 
   const handleUpdate = async () => {
-    await axios
-      .put(
-        API_PATH + "/api/contacts",
-        {
-          name: name,
-          phone: phone,
-        },
-        { params: { contact_id: editId } }
-      )
-      .then((res) => {
-        console.log(res);
-        handleGet();
-        setName("");
-        setPhone("");
-        setEditId(null);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (name != "" && phone != "") {
+      await axios
+        .put(
+          API_PATH + "/api/contacts",
+          {
+            name: name,
+            phone: phone,
+          },
+          { params: { contact_id: editId } }
+        )
+        .then((res) => {
+          console.log("Success", res);
+          handleGet();
+          setName("");
+          setPhone("");
+          setEditId(null);
+        })
+        .catch((err) => {
+          console.log("Error", err);
+        });
+    } else {
+      alert("Missing field");
+    }
   };
 
   const handleDelete = async (id) => {
@@ -95,11 +103,11 @@ function App() {
       })
 
       .then((res) => {
-        console.log(res);
+        console.log("Success", res);
         handleGet();
       })
       .catch((err) => {
-        console.log(err);
+        console.log("Error", err);
       });
   };
 

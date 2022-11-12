@@ -20,12 +20,15 @@ exports.index = function (req, res) {
 // Handle create contact actions
 exports.new = function (req, res) {
   var contact = new Contact();
+
   contact.name = req.body.name ? req.body.name : contact.name;
   contact.phone = req.body.phone;
+
   // save the contact and check for errors
   contact.save(function (err) {
     // if (err)
     //     res.json(err);
+    if (err) res.send(err);
     res.json({
       message: "New contact created",
       data: contact,
@@ -71,7 +74,6 @@ exports.delete = function (req, res) {
         status: "success",
         message: "Contact deleted",
       });
-      console.log("contact", contact);
     }
   );
 };
